@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9_-]+).html$ index.php?mod=home&controller=index&action=index
+RewriteRule ^login/([a-zA-Z0-9_-]+).html$ index.php?mod=users&controller=index&action=login
+RewriteRule ^signin/([a-zA-Z0-9_-]+).html$ index.php?mod=users&controller=index&action=reg
