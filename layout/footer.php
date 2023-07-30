@@ -120,6 +120,8 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
+
+<script src="public/js/search.js"></script>
 </body>
 
 </html>

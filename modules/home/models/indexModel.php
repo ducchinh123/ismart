@@ -56,3 +56,18 @@ function get_list_page()
 
     return db_fetch_array("SELECT tbl_pages.id, tbl_pages.title, tbl_pages.slug FROM `tbl_pages` WHERE tbl_pages.status = 'Công khai'");
 }
+
+
+// search
+
+function get_list_product_by_title($value = "")
+{
+
+    if ($value != "") {
+
+        return db_fetch_array("SELECT tbl_products.*, tbl_cate_product.id as id_cate_prod, tbl_cate_product.name as cate_name FROM `tbl_products` 
+        INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id WHERE tbl_products.name LIKE '%$value%'
+        or tbl_products.code LIKE '%$value%'");
+    }
+    return [];
+}

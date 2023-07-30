@@ -158,3 +158,11 @@ function deleteImageProd($id)
 
     return db_delete("tbl_image_product", "`product_id`={$id}");
 }
+
+
+function get_info_image($id)
+{
+
+    return db_fetch_row("SELECT tbl_image_product.*, tbl_products.id as id_product FROM tbl_image_product INNER JOIN tbl_products
+    on tbl_image_product.product_id = tbl_products.id WHERE tbl_image_product.product_id = {$id} AND tbl_image_product.is_trash = 'no'");
+}

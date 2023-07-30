@@ -340,8 +340,15 @@ function deleteTrashAction()
     $id = $_GET['id'];
     $info_prod = get_info_prod($id);
     unlink($info_prod['main_img']);
-    deleteProduct($id);
+    $info_thumb = get_info_image($id);
+    unlink($info_thumb['img_one']);
+    unlink($info_thumb['img_two']);
+    unlink($info_thumb['img_three']);
+    unlink($info_thumb['img_four']);
+    unlink($info_thumb['img_five']);
+    unlink($info_thumb['img_six']);
     deleteImageProd($id);
+    deleteProduct($id);
     return redirect_to("?mod=products&action=indexTrash");
 }
 

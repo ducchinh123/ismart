@@ -68,6 +68,7 @@ get_header();
                                     $i = 0;
 
                                     foreach ($list_image as $image) {
+
                                         $i++;
                                 ?>
 
@@ -110,7 +111,7 @@ get_header();
                                                 </div>
                                                 <ul class="list-operation fl-right">
                                                     <li><a href="?mod=thumb-products&action=edit&id=<?php echo $image['id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
-                                                    <li><a onclick="return confirm('Di chuyển vào thùng rác?')" href="?mod=thumb-products&action=removeTrash&id=<?php echo $image['product_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                                    <li><a onclick="return confirm('Di chuyển vào thùng rác?')" href="?mod=thumb-products&action=removeTrash&id=<?php echo $image['id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
                                                 </ul>
                                             </td>
                                             <td><span class="tbody-text"><?php echo $image['status'] ?></span></td>

@@ -67,8 +67,9 @@ function deleteImageProd($id)
 function get_info_image($id)
 {
 
-    return db_fetch_row("SELECT tbl_image_product.*, tbl_products.id as id_product FROM tbl_image_product INNER JOIN tbl_products
-    on tbl_image_product.product_id = tbl_products.id WHERE tbl_image_product.id = {$id} AND tbl_image_product.is_trash = 'no'");
+    return db_fetch_row("SELECT tbl_image_product.id, tbl_image_product.product_id, tbl_image_product.status, tbl_image_product.img_one, 
+    tbl_image_product.img_two, tbl_image_product.img_three, tbl_image_product.img_four, 
+    tbl_image_product.img_five, tbl_image_product.img_six FROM tbl_image_product WHERE tbl_image_product.id = {$id}");
 }
 
 
@@ -84,15 +85,19 @@ function updateImage($data, $id)
 function removeTrash($id, $data)
 {
 
-    return db_update("tbl_image_product", $data, "`product_id` = {$id}");
+    return db_update("tbl_image_product", $data, "`id` = {$id}");
 }
 
 
 function get_all_images_trash()
 {
 
-    return db_fetch_array("SELECT * FROM `tbl_image_product` INNER JOIN tbl_products
-    on tbl_image_product.product_id = tbl_products.id WHERE tbl_image_product.is_trash = 'yes' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
+    return db_fetch_array("SELECT tbl_image_product.id as image_id, tbl_image_product.img_one, 
+    tbl_image_product.img_two, tbl_image_product.img_three, tbl_image_product.img_four, 
+    tbl_image_product.img_five, tbl_image_product.img_six, tbl_image_product.product_id,
+    tbl_image_product.creator, tbl_image_product.create_at, tbl_image_product.status,
+    tbl_image_product.is_trash, tbl_products.name  FROM `tbl_image_product` INNER JOIN `tbl_products` on tbl_image_product.product_id = tbl_products.id WHERE 
+    tbl_image_product.is_trash = 'yes' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
 }
 function totalTrash()
 {

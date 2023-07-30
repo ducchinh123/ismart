@@ -23,15 +23,19 @@ get_header();
                     <div class="filter-wp fl-right">
                         <p class="desc">Hiển thị <?php echo $count_; ?> trên <?php echo $total_rows; ?> sản phẩm</p>
                         <div class="form-filter">
-                            <form method="POST" action="">
+                            <form method="POST" action="<?php if ($_GET['action'] == "list") {
+                                                            echo "?mod=products&action=list";
+                                                        } else if ($_GET['action'] == "index") {
+                                                            echo "?mod=products&action=index&id=" . $id . "&url=" . $url;
+                                                        } ?>">
                                 <select name="select">
                                     <option value="0">Sắp xếp</option>
                                     <option value="1">Từ A-Z</option>
                                     <option value="2">Từ Z-A</option>
                                     <option value="3">Giá cao xuống thấp</option>
-                                    <option value="3">Giá thấp lên cao</option>
+                                    <option value="4">Giá thấp lên cao</option>
                                 </select>
-                                <button type="submit">Lọc</button>
+                                <button type="submit" name="btn-filter">Lọc</button>
                             </form>
                         </div>
                     </div>
@@ -58,7 +62,7 @@ get_header();
                                         <span class="old"><?php echo currency($product['price_old']); ?></span>
                                     </div>
                                     <div class="action clearfix">
-                                        <a href="?page=cart" title="Thêm giỏ hàng" class="add-cart fl-left">Thêm giỏ hàng</a>
+                                        <a href="gio-hang/san-pham-<?php echo $product['id']; ?>.html" title="Thêm giỏ hàng" class="add-cart fl-left">Thêm giỏ hàng</a>
                                         <a href="?page=checkout" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
                                     </div>
                                 </li>
@@ -76,7 +80,9 @@ get_header();
             </div>
             <div class="section" id="paging-wp">
                 <div class="section-detail">
-                    <?php echo get_pagging($num_page, $url, $page); ?>
+                    <?php if (isset($num_page)) {
+                        echo get_pagging($num_page, $url, $page);
+                    } ?>
                 </div>
             </div>
         </div>

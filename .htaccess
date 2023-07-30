@@ -3,9 +3,15 @@ RewriteRule ^([a-zA-Z_-]+).html$ index.php?mod=home&action=index
 RewriteRule ^san-pham/([a-zA-Z0-9_-]+).html/([0-9]+)$ index.php?mod=products&action=index&id=$2&url=$1
 RewriteRule ^san-pham/([a-zA-Z0-9_-]+).html/([0-9]+)&page=([0-9])$ index.php?mod=products&action=index&url=$1&id=$2&page=$3
 RewriteRule ^san-pham/([a-zA-Z0-9_-]+).html$ index.php?mod=products&action=list
+RewriteRule ^san-pham/tim-kiem$ index.php?mod=products&action=search
+RewriteRule ^san-pham/tim-kiem&page=([0-9]+)$ index.php?mod=products&action=search&page=$2
 RewriteRule ^san-pham/([a-zA-Z0-9_-]+).html&page=([0-9]+)$ index.php?mod=products&action=list&page=$2
 RewriteRule ^san-pham/([a-zA-Z0-9_-]+).([0-9]+).([0-9]+).html$ index.php?mod=products&action=detail&id=$2&id_cate=$3
 RewriteRule ^trang/([a-zA-Z0-9_-]+).([0-9]+).html$ index.php?mod=pages&action=index&id=$2
 RewriteRule ^bai-viet$ index.php?mod=posts&action=index
 RewriteRule ^bai-viet&page=([0-9]+)$ index.php?mod=posts&action=index&page=$1
 RewriteRule ^bai-viet/([a-zA-Z0-9_-]+).([0-9]+).html$ index.php?mod=posts&action=detail&id=$2
+
+RewriteRule ^gio-hang$ index.php?mod=carts&action=index
+RewriteRule ^gio-hang/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=carts&action=add&id=$2
+

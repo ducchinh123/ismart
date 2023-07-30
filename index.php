@@ -25,3 +25,5 @@ $public = "public";
 define("PUBLIC", APPPATH . DIRECTORY_SEPARATOR . $public);
 
 require CORE . DIRECTORY_SEPARATOR . "appload.php";
+
+// unset($_SESSION['cart']);

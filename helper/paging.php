@@ -1,13 +1,17 @@
 <?php
 
-function get_data($select, $start = 0, $num_per_page = 5, $where = "")
+function get_data($select, $start = 0, $num_per_page = 5, $where = "", $orderby = "")
 {
     if (!empty($where)) {
 
         $where = "WHERE {$where}";
     }
 
-    $listData = db_fetch_array("{$select} {$where} LIMIT {$start}, {$num_per_page}");
+    if (!empty($orderby)) {
+        $orderby = "order by {$orderby}";
+    }
+
+    $listData = db_fetch_array("{$select} {$where} {$orderby} LIMIT {$start}, {$num_per_page}");
     return $listData;
 }
 

@@ -64,10 +64,10 @@ function addAction()
         $upload_dir = "./public/images/products/image_detail/";
         $file_path1 = $upload_dir . basename($_FILES['thumb1']['name']);
         $file_path2 = $upload_dir . basename($_FILES['thumb2']['name']);
-        $file_path3 = $upload_dir . basename($_FILES['thumb2']['name']);
-        $file_path4 = $upload_dir . basename($_FILES['thumb3']['name']);
-        $file_path5 = $upload_dir . basename($_FILES['thumb3']['name']);
-        $file_path6 = $upload_dir . basename($_FILES['thumb3']['name']);
+        $file_path3 = $upload_dir . basename($_FILES['thumb3']['name']);
+        $file_path4 = $upload_dir . basename($_FILES['thumb4']['name']);
+        $file_path5 = $upload_dir . basename($_FILES['thumb5']['name']);
+        $file_path6 = $upload_dir . basename($_FILES['thumb6']['name']);
         $types_file = ["jpg", "jpeg", "png", "gif"];
 
         if (!in_array(pathinfo($_FILES['thumb1']['name'], PATHINFO_EXTENSION), $types_file) && !empty($_FILES['thumb1']['name'])) {
@@ -329,7 +329,7 @@ function deleteAction()
     unlink($info_thumb['img_five']);
     unlink($info_thumb['img_six']);
     deleteImage($id);
-    return redirect_to("?mod=thumb-products&action=list");
+    return redirect_to("?mod=thumb-products&action=indexTrash");
 }
 
 function editAction()
@@ -347,10 +347,10 @@ function editAction()
         $upload_dir = "./public/images/products/image_detail/";
         $file_path1 = $upload_dir . basename($_FILES['thumb1']['name']);
         $file_path2 = $upload_dir . basename($_FILES['thumb2']['name']);
-        $file_path3 = $upload_dir . basename($_FILES['thumb2']['name']);
-        $file_path4 = $upload_dir . basename($_FILES['thumb3']['name']);
-        $file_path5 = $upload_dir . basename($_FILES['thumb3']['name']);
-        $file_path6 = $upload_dir . basename($_FILES['thumb3']['name']);
+        $file_path3 = $upload_dir . basename($_FILES['thumb3']['name']);
+        $file_path4 = $upload_dir . basename($_FILES['thumb4']['name']);
+        $file_path5 = $upload_dir . basename($_FILES['thumb5']['name']);
+        $file_path6 = $upload_dir . basename($_FILES['thumb6']['name']);
         $types_file = ["jpg", "jpeg", "png", "gif"];
 
         if (!in_array(pathinfo($_FILES['thumb1']['name'], PATHINFO_EXTENSION), $types_file) && !empty($_FILES['thumb1']['name'])) {
@@ -680,6 +680,7 @@ function removeTrashAction()
     $data['total_image'] = $total_image;
     load_view('list', $data);
 }
+
 
 function updateImageTrashAction()
 {

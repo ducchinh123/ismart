@@ -69,3 +69,20 @@ function get_thumb_detail($id)
     return db_fetch_row("SELECT tbl_image_product.img_one as thumb_1, tbl_image_product.img_two as thumb_2, tbl_image_product.img_three as thumb_3, tbl_image_product.img_four as thumb_4, tbl_image_product.img_five as thumb_5, tbl_image_product.img_six as thumb_6 FROM tbl_image_product WHERE 
     tbl_image_product.status = 'Công khai' AND tbl_image_product.product_id = {$id} AND tbl_image_product.is_trash = 'no'");
 }
+
+// 
+
+function get_list_product_by_title($value = "")
+{
+
+    return db_fetch_array("SELECT tbl_products.*, tbl_cate_product.id as id_cate_prod, tbl_cate_product.name as cate_name FROM `tbl_products` 
+        INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id WHERE tbl_products.name LIKE '%$value%'
+        or tbl_products.code LIKE '%$value%'");
+}
+function totalResult($value = "")
+{
+
+    return db_num_rows("SELECT tbl_products.*, tbl_cate_product.id as id_cate_prod, tbl_cate_product.name as cate_name FROM `tbl_products` 
+        INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id WHERE tbl_products.name LIKE '%$value%'
+        or tbl_products.code LIKE '%$value%'");
+}

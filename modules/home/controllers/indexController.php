@@ -79,3 +79,16 @@ function indexAction()
 
     load_view('index', $data);
 }
+
+
+function showResultAction()
+{
+
+    $title = $_POST['title'];
+    $list_result = get_list_product_by_title($title);
+
+    for ($i = 0; $i < count($list_result); $i++) {
+        $list_result[$i]['price_new'] = currency($list_result[$i]['price_new']);
+    }
+    echo json_encode($list_result);
+}

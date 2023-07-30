@@ -20,7 +20,7 @@ get_header();
                             <li class="all"><a href="?mod=thumb-products&action=list">Tất cả <span class="count">(<?php echo $total_image; ?>)</span></a> |</li>
                             <li class="publish"><a href="?mod=thumb-products&action=public">Đã đăng <span class="count">(<?php echo $total_public; ?>)</span></a> |</li>
                             <li class="pending"><a href="?mod=thumb-products&action=private">Chờ xét duyệt<span class="count">(<?php echo $total_private; ?>)</span></a></li>
-                            <li class="pending"><a href="">Thùng rác<span class="count">(0)</span></a></li>
+                            <li class="pending"><a href="?mod=thumb-products&action=indexTrash">Thùng rác<span class="count">(<?php echo $total_trash; ?>)</span></a></li>
                         </ul>
                         <form method="GET" class="form-s fl-right">
                             <input type="text" name="s" id="s">
@@ -68,6 +68,7 @@ get_header();
                                     $i = 0;
 
                                     foreach ($list_image as $image) {
+
                                         $i++;
                                 ?>
 
@@ -109,8 +110,8 @@ get_header();
                                                     <a href="" title=""><?php echo $image['name'] ?></a>
                                                 </div>
                                                 <ul class="list-operation fl-right">
-                                                    <li><a onclick="return confirm('Khôi phục lại ảnh sản phẩm?')" href="?mod=thumb-products&action=updateImageTrash&id=<?php echo $image['id']; ?>" title="Phục hồi" class="delete"><i class="fa fa-solid fa-upload" aria-hidden="true"></i></a></li>
-                                                    <li><a onclick="return confirm('Di chuyển vào thùng rác?')" href="?mod=thumb-products&action=removeTrash&id=<?php echo $image['product_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                                    <li><a onclick="return confirm('Khôi phục lại ảnh sản phẩm?')" href="?mod=thumb-products&action=updateImageTrash&id=<?php echo $image['image_id']; ?>" title="Phục hồi" class="delete"><i class="fa fa-solid fa-upload" aria-hidden="true"></i></a></li>
+                                                    <li><a onclick="return confirm('Di chuyển vào thùng rác?')" href="?mod=thumb-products&action=delete&id=<?php echo $image['image_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
                                                 </ul>
                                             </td>
                                             <td><span class="tbody-text"><?php echo $image['status'] ?></span></td>
