@@ -40,6 +40,28 @@ function indexAction()
     FROM tbl_products INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id", $start, $num_per_page, "tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
     $data['count_'] = count($list_product);
     $data['list_product'] = $list_product;
+
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=products&action={$action}");
+        }
+    }
+
     load_view('index', $data);
 }
 function publicProdAction()
@@ -75,6 +97,26 @@ function publicProdAction()
     FROM tbl_products INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id", $start, $num_per_page, "tbl_products.status = 'Công khai' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
     $data['count_'] = count($list_product);
     $data['list_product'] = $list_product;
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=products&action={$action}");
+        }
+    }
     load_view('index', $data);
 }
 function privateProdAction()
@@ -111,6 +153,25 @@ function privateProdAction()
     FROM tbl_products INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id", $start, $num_per_page, "tbl_products.status = 'Chờ duyệt' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
     $data['count_'] = count($list_product);
     $data['list_product'] = $list_product;
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=products&action={$action}");
+        }
+    }
     load_view('index', $data);
 }
 
@@ -322,6 +383,8 @@ function addAction()
                     'create_at' => date('Y-m-d', time())
                 ];
             }
+
+            $image = $file_path;
 
             addProduct($data);
         }
@@ -596,6 +659,9 @@ function searchProductAction()
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_product'] = $total_product;
+    $total_trash = totalProductTrash();
+    $data['total_trash'] = $total_trash;
+
     load_view('index', $data);
 }
 
@@ -603,13 +669,33 @@ function cateProductAction()
 {
 
 
-    $list_cate = get_all_cate();
-    $data_tree = data_tree($list_cate, 0);
+
+
     $total_cate = totalCateProduct();
     $total_cate_trash = totalCateTrashProduct();
     $data['total_cate'] = $total_cate;
     $data['total_cate_trash'] = $total_cate_trash;
-    $data['list_cate'] = $data_tree;
+
+
+    // Phân trang //
+    $num_per_page = 5;
+    $total_rows = totalCateProduct();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+
+    $data['num_page'] = $num_page;
+    $data['page'] = $page;
+    $data['url'] = "?mod=products&action=cateProduct";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_cate = get_data("SELECT * FROM `tbl_cate_product`", $start, $num_per_page, "tbl_cate_product.is_trash = 'no'");
+    $data['count_'] = count($list_cate);
+    $data['list_cate'] = data_tree($list_cate, 0);
     load_view('cate', $data);
 }
 
@@ -624,6 +710,27 @@ function cateProductTrashAction()
     $total_cate_trash = totalCateTrashProduct();
     $data['total_cate'] = $total_cate;
     $data['total_cate_trash'] = $total_cate_trash;
+
+    // Phân trang //
+    $num_per_page = 5;
+    $total_rows = totalCateTrashProduct();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+
+    $data['num_page'] = $num_page;
+    $data['page'] = $page;
+    $data['url'] = "?mod=products&action=cateProductTrash";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_cate = get_data("SELECT * FROM `tbl_cate_product`", $start, $num_per_page, "tbl_cate_product.is_trash = 'yes'");
+    $data['count_'] = count($list_cate);
+    $data['list_cate'] = $list_cate;
+
     load_view('cateTrash', $data);
 }
 
@@ -688,7 +795,37 @@ function deleteCateAction()
 function deleteCateTrashAction()
 {
     $id = $_GET['id'];
-    delete_cate_trash($id);
+    if (count(get_id_child_by_id_parent($id)) > 0) {
+
+        $ids = get_id_child_by_id_parent($id)[0]['id'];
+        $info_prod = get_info_prod_by_id_cate($ids);
+        unlink($info_prod['main_img']);
+        $info_thumb = get_info_image($info_prod['id']);
+        unlink($info_thumb['img_one']);
+        unlink($info_thumb['img_two']);
+        unlink($info_thumb['img_three']);
+        unlink($info_thumb['img_four']);
+        unlink($info_thumb['img_five']);
+        unlink($info_thumb['img_six']);
+        delete_cate_by_id_parent($id);
+        delete_cate_trash($id);
+        deleteImageProd($info_prod['id']);
+        deleteProduct($info_prod['id']);
+    } else {
+        delete_cate_trash($id);
+        $info_prod = get_info_prod_by_id_cate($id);
+        unlink($info_prod['main_img']);
+        $info_thumb = get_info_image($info_prod['id']);
+        unlink($info_thumb['img_one']);
+        unlink($info_thumb['img_two']);
+        unlink($info_thumb['img_three']);
+        unlink($info_thumb['img_four']);
+        unlink($info_thumb['img_five']);
+        unlink($info_thumb['img_six']);
+        deleteImageProd($info_prod['id']);
+        deleteProduct($info_prod['id']);
+    }
+
     return redirect_to("?mod=products&action=cateProductTrash");
 }
 
@@ -808,5 +945,23 @@ function indexTrashAction()
     $list_product = get_data("SELECT `tbl_products`.*, tbl_cate_product.id as id_cate_prod, tbl_cate_product.name as cate_name FROM `tbl_products` INNER JOIN tbl_cate_product on tbl_products.id_cate_prod = tbl_cate_product.id", $start, $num_per_page, "tbl_products.display <> 'none' AND tbl_products.is_trash = 'yes'");
     $data['count_'] = count($list_product);
     $data['list_product'] = $list_product;
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+            $action = $_GET['action'];
+            deleteList($ids);
+            return redirect_to("?mod=products&action={$action}");
+        }
+    }
+
     load_view('indexTrash', $data);
 }

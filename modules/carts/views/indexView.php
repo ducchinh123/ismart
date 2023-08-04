@@ -56,7 +56,7 @@
                                             <td>
                                                 <input type="number" name="num_order" value="<?php echo $buy['qty']; ?>" min="1" class="num-order" data-id="<?php echo $buy['id']; ?>" id="num-order">
                                             </td>
-                                            <td id="sub_total"><?php echo currency($buy['sub_total']); ?></td>
+                                            <td id="sub_total-<?php echo $buy['id']; ?>"><?php echo currency($buy['sub_total']); ?></td>
                                             <td>
                                                 <a onclick="return confirm('Xóa sản phẩm này khỏi giỏ?')" href="?mod=carts&action=deleteProduct&id=<?php echo $buy['id']; ?>" title="" class="del-product"><i class="fa fa-trash-o"></i></a>
                                             </td>
@@ -87,7 +87,7 @@
                                             <div class="clearfix">
                                                 <div class="fl-right">
 
-                                                    <a href="?mod=checkouts&action=index" title="" id="checkout-cart">Thanh toán</a>
+                                                    <a href="thanh-toan" title="" id="checkout-cart">Thanh toán</a>
                                                 </div>
                                             </div>
                                         </td>

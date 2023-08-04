@@ -8,8 +8,8 @@ function construct()
 
 function listAction()
 {
-    $list_image = get_all_images();
-    $data['list_image'] = $list_image;
+
+
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_image = totalImage();
@@ -18,12 +18,51 @@ function listAction()
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_image'] = $total_image;
+
+    // Phân trang //
+    $num_per_page = 3;
+    $total_rows = totalImage();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+    $data['num_page'] = $num_page;
+    $data['page_'] = $page;
+    $data['url'] = "?mod=thumb-products&action=list";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_image = get_data("SELECT tbl_image_product.*, tbl_products.name FROM tbl_image_product INNER JOIN tbl_products
+    on tbl_image_product.product_id = tbl_products.id", $start, $num_per_page, "tbl_image_product.is_trash = 'no' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
+    $data['list_image'] = $list_image;
+    $data['count_'] = count($list_image);
+    //=========
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=thumb-products&action={$action}");
+        }
+    }
     load_view('list', $data);
 }
 function publicAction()
 {
-    $list_image = get_list_image_public();
-    $data['list_image'] = $list_image;
+
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_image = totalImage();
@@ -32,12 +71,52 @@ function publicAction()
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_image'] = $total_image;
+
+    // Phân trang //
+    $num_per_page = 3;
+    $total_rows = totalPublic();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+    $data['num_page'] = $num_page;
+    $data['page_'] = $page;
+    $data['url'] = "?mod=thumb-products&action=public";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_image = get_data("SELECT tbl_image_product.*, tbl_products.name FROM tbl_image_product INNER JOIN tbl_products
+    on tbl_image_product.product_id = tbl_products.id", $start, $num_per_page, "tbl_products.display <> 'none' AND tbl_products.is_trash = 'no' AND tbl_image_product.status = 'Công khai' AND tbl_image_product.is_trash = 'no'");
+    $data['list_image'] = $list_image;
+    $data['count_'] = count($list_image);
+    //=========
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=thumb-products&action={$action}");
+        }
+    }
     load_view('list', $data);
 }
 function privateAction()
 {
-    $list_image = get_list_image_private();
-    $data['list_image'] = $list_image;
+
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_image = totalImage();
@@ -46,6 +125,46 @@ function privateAction()
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_image'] = $total_image;
+
+    // Phân trang //
+    $num_per_page = 3;
+    $total_rows = totalPrivate();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+    $data['num_page'] = $num_page;
+    $data['page_'] = $page;
+    $data['url'] = "?mod=thumb-products&action=private";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_image = get_data("SELECT tbl_image_product.*, tbl_products.name FROM tbl_image_product INNER JOIN tbl_products
+     on tbl_image_product.product_id = tbl_products.id", $start, $num_per_page, "tbl_products.display <> 'none' AND tbl_products.is_trash = 'no' AND tbl_image_product.status = 'Chờ duyệt' AND tbl_image_product.is_trash = 'no'");
+    $data['list_image'] = $list_image;
+    $data['count_'] = count($list_image);
+    //=========
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=thumb-products&action={$action}");
+        }
+    }
     load_view('list', $data);
 }
 
@@ -706,8 +825,7 @@ function updateImageTrashAction()
 function indexTrashAction()
 {
 
-    $list_image = get_all_images_trash();
-    $data['list_image'] = $list_image;
+
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_image = totalImage();
@@ -716,5 +834,46 @@ function indexTrashAction()
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_image'] = $total_image;
+
+    // Phân trang //
+    $num_per_page = 3;
+    $total_rows = totalTrash();
+
+    //--> Tính số trang
+    $num_page = ceil($total_rows / $num_per_page);
+    //--> Trang hiện tại
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    //--> Chỉ mục bắt đầu lấy ra
+    $start = ($page - 1) * $num_per_page;
+    $data['num_page'] = $num_page;
+    $data['page_'] = $page;
+    $data['url'] = "?mod=thumb-products&action=indexTrash";
+    $data['total_rows'] = $total_rows;
+    ///=====================
+    $list_image = get_data("SELECT tbl_image_product.id as image_id, tbl_image_product.img_one, 
+    tbl_image_product.img_two, tbl_image_product.img_three, tbl_image_product.img_four, 
+    tbl_image_product.img_five, tbl_image_product.img_six, tbl_image_product.product_id,
+    tbl_image_product.creator, tbl_image_product.create_at, tbl_image_product.status,
+    tbl_image_product.is_trash, tbl_products.name  FROM `tbl_image_product` INNER JOIN `tbl_products` on tbl_image_product.product_id = tbl_products.id", $start, $num_per_page, "tbl_image_product.is_trash = 'yes' AND tbl_products.display <> 'none' AND tbl_products.is_trash = 'no'");
+    $data['list_image'] = $list_image;
+    $data['count_'] = count($list_image);
+    //=========
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+            $action = $_GET['action'];
+            deleteList($ids);
+            return redirect_to("?mod=thumb-products&action={$action}");
+        }
+    }
     load_view('listTrash', $data);
 }

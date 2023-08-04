@@ -97,3 +97,17 @@ function is_trash()
 
     return db_fetch_array("SELECT * FROM  `tbl_pages` WHERE is_trash = 'yes'");
 }
+
+
+// xóa nhiều
+
+function deleteList($ids)
+{
+
+    return db_delete("tbl_pages", " tbl_pages.id IN ({$ids})");
+}
+
+function removeList($ids, $data)
+{
+    return db_update("tbl_pages", $data, "tbl_pages.id IN ({$ids})");
+}

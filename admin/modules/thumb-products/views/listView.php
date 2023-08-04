@@ -22,24 +22,22 @@ get_header();
                             <li class="pending"><a href="?mod=thumb-products&action=private">Chờ xét duyệt<span class="count">(<?php echo $total_private; ?>)</span></a></li>
                             <li class="pending"><a href="?mod=thumb-products&action=indexTrash">Thùng rác<span class="count">(<?php echo $total_trash; ?>)</span></a></li>
                         </ul>
-                        <form method="GET" class="form-s fl-right">
-                            <input type="text" name="s" id="s">
-                            <input type="submit" name="sm_s" value="Tìm kiếm">
-                        </form>
+
                     </div>
                     <div class="actions">
-                        <form method="GET" action="" class="form-actions">
+                        <form method="POST" action="?mod=thumb-products&action=<?php echo $_GET['action']; ?>" class="form-actions">
                             <select name="actions">
                                 <option value="0">Tác vụ</option>
-                                <option value="1">Công khai</option>
-                                <option value="1">Chờ duyệt</option>
                                 <option value="2">Bỏ vào thủng rác</option>
                             </select>
                             <input type="submit" name="sm_action" value="Áp dụng">
-                        </form>
+
                     </div>
                     <div class="table-responsive">
                         <table class="table list-table-wp">
+                            <caption><?php if ($total_rows > 0) {
+                                            echo "Đang hiển thị: {$count_} / {$total_rows} tổng số bản ghi";
+                                        } ?></caption>
                             <thead>
                                 <tr>
                                     <td><input type="checkbox" name="checkAll" id="checkAll"></td>
@@ -73,7 +71,7 @@ get_header();
                                 ?>
 
                                         <tr>
-                                            <td><input type="checkbox" name="checkItem" class="checkItem"></td>
+                                            <td><input type="checkbox" name="checkItem[<?php echo $image['id'] ?>]" class="checkItem"></td>
                                             <td><span class="tbody-text"><?php echo $i; ?></h3></span>
                                             <td>
                                                 <div class="tbody-thumb">
@@ -131,30 +129,16 @@ get_header();
 
                                 </tfoot>
                         </table>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="section" id="paging-wp">
                 <div class="section-detail clearfix">
                     <p id="desc" class="fl-left">Chọn vào checkbox để lựa chọn tất cả</p>
-                    <ul id="list-paging" class="fl-right">
-                        <li>
-                            <a href="" title="">
-                                < </a>
-                        </li>
-                        <li>
-                            <a href="" title="">1</a>
-                        </li>
-                        <li>
-                            <a href="" title="">2</a>
-                        </li>
-                        <li>
-                            <a href="" title="">3</a>
-                        </li>
-                        <li>
-                            <a href="" title="">></a>
-                        </li>
-                    </ul>
+                    <?php if ($total_rows > 0) {
+                        echo get_pagging($num_page, $url, $page_);
+                    } ?>
                 </div>
             </div>
         </div>

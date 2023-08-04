@@ -15,3 +15,8 @@ RewriteRule ^bai-viet/([a-zA-Z0-9_-]+).([0-9]+).html$ index.php?mod=posts&action
 RewriteRule ^gio-hang$ index.php?mod=carts&action=index
 RewriteRule ^gio-hang/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=carts&action=add&id=$2
 
+RewriteRule ^thanh-toan$ index.php?mod=checkouts&action=index
+
+RewriteRule ^thanh-toan/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=checkouts&action=payNow&id=$2
+RewriteRule ^thanh-toan/([a-zA-Z0-9_-]+).html$ index.php?mod=checkouts&action=success
+

@@ -28,19 +28,18 @@ get_header();
                         </form>
                     </div>
                     <div class="actions">
-                        <form method="GET" action="" class="form-actions">
+                        <form method="POST" action="?mod=pages&action=list" class="form-actions">
                             <select name="actions">
                                 <option value="0">Tác vụ</option>
-                                <option value="1">Chỉnh sửa</option>
                                 <option value="2">Bỏ vào thủng rác</option>
                             </select>
                             <input type="submit" name="sm_action" value="Áp dụng">
-                        </form>
+
                     </div>
                     <div class="table-responsive">
                         <table class="table list-table-wp">
 
-                            <caption><?php if ($total_rows > 0) {
+                            <caption><?php if (isset($total_rows) && $total_rows > 0) {
                                             echo "Đang hiển thị: {$count_} / {$total_rows} tổng số trang";
                                         } ?></caption>
                             <thead>
@@ -64,7 +63,7 @@ get_header();
                                 ?>
 
                                         <tr>
-                                            <td><input type="checkbox" name="checkItem" class="checkItem"></td>
+                                            <td><input type="checkbox" name="checkItem[<?php echo $page['id']; ?>]" class="checkItem"></td>
                                             <td><span class="tbody-text"><?php echo $i; ?></h3></span>
                                             <td class="clearfix">
                                                 <div class="tb-title fl-left">
@@ -92,13 +91,14 @@ get_header();
                             </tbody>
 
                         </table>
+                        </form>
                     </div>
 
                 </div>
             </div>
             <div class="section" id="paging-wp">
                 <div class="section-detail clearfix">
-                    <?php if ($total_rows > 0) {
+                    <?php if (isset($total_rows) &&  $total_rows > 0) {
                         echo get_pagging($num_page, $url, $page_);
                     } ?>
                 </div>

@@ -39,6 +39,26 @@ function homeAction()
     $data['count_'] = count($list_post);
     $data['list_post'] = $list_post;
 
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=posts&action={$action}");
+        }
+    }
+
     load_view('list', $data);
 }
 
@@ -200,9 +220,29 @@ function listAction()
     $data['total_rows'] = $total_rows;
     ///=====================
     $list_post = get_data("SELECT tbl_posts.*,
-    tbl_cate_post.name FROM `tbl_posts` INNER JOIN `tbl_cate_post` on tbl_posts.id_cate_posts = tbl_cate_post.id", $start, $num_per_page, "tbl_posts.is_trash = 'no' AND tbl_posts.display <> 'none'");
+    tbl_cate_post.name FROM `tbl_posts` INNER JOIN `tbl_cate_post` on tbl_posts.id_cate_posts = tbl_cate_post.id", $start, $num_per_page, "tbl_posts.is_trash = 'no' AND tbl_posts.display <> 'none' ORDER BY tbl_posts.id DESC");
     $data['count_'] = count($list_post);
     $data['list_post'] = $list_post;
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=posts&action={$action}");
+        }
+    }
 
     load_view('list', $data);
 }
@@ -396,11 +436,13 @@ function publicAction()
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_post = totalPost();
-    $total_trash = totalTrash();
+    $total_trash = totalTrashPost();
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_post'] = $total_post;
     $data['total_trash'] = $total_trash;
+
+
 
     // Phân trang //
     $num_per_page = 3;
@@ -422,8 +464,26 @@ function publicAction()
     tbl_cate_post.name FROM `tbl_posts` INNER JOIN `tbl_cate_post` on tbl_posts.id_cate_posts = tbl_cate_post.id", $start, $num_per_page, "tbl_posts.status = 'Công khai' AND tbl_posts.is_trash = 'no' AND tbl_posts.display <> 'none'");
     $data['count_'] = count($list_post);
     $data['list_post'] = $list_post;
+    // Xóa theo lựa chọn
 
-    load_view('list', $data);
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=posts&action={$action}");
+        }
+    }
+    load_view('public', $data);
 }
 function privateAction()
 {
@@ -432,7 +492,7 @@ function privateAction()
     $total_public = totalPublic();
     $total_private = totalPrivate();
     $total_post = totalPost();
-    $total_trash = totalTrash();
+    $total_trash = totalTrashPost();
     $data['total_public'] = $total_public;
     $data['total_private'] = $total_private;
     $data['total_post'] = $total_post;
@@ -458,7 +518,7 @@ function privateAction()
      tbl_cate_post.name FROM `tbl_posts` INNER JOIN `tbl_cate_post` on tbl_posts.id_cate_posts = tbl_cate_post.id", $start, $num_per_page, "tbl_posts.status = 'Chờ duyệt' AND tbl_posts.is_trash = 'no' AND tbl_posts.display <> 'none'");
     $data['count_'] = count($list_post);
     $data['list_post'] = $list_post;
-    load_view('list', $data);
+    load_view('private', $data);
 }
 
 function catePostAction()
@@ -648,6 +708,24 @@ function list_trashAction()
     tbl_cate_post.name FROM `tbl_posts` INNER JOIN `tbl_cate_post` on tbl_posts.id_cate_posts = tbl_cate_post.id ", $start, $num_per_page, "tbl_posts.is_trash = 'yes' AND tbl_posts.display <> 'none'");
     $data['count_'] = count($list_post);
     $data['list_post'] = $list_post;
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            deleteList($ids);
+            return redirect_to("?mod=posts&action=list_trash");
+        }
+    }
+
     load_view('trash', $data);
 }
 

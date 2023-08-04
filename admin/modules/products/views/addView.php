@@ -40,7 +40,7 @@ get_header();
                         <label>Hình ảnh</label>
                         <div id="uploadFile">
                             <input type="file" name="thumb" id="upload-thumb">
-                            <img src="public/images/img-thumb.png">
+                            <img src="<?php echo set_value('image'); ?>">
                         </div>
                         <?php echo form_error('image'); ?>
                         <label>Danh mục sản phẩm</label>

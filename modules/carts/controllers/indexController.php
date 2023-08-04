@@ -43,9 +43,34 @@ function addAction()
 
         if (isset($_SESSION['cart']) && array_key_exists($id, $_SESSION['cart']['buy'])) {
 
-            $qty = $_SESSION['cart']['buy'][$id]['qty'] + 1;
+            if (isset($_POST['btn-add-cart'])) {
+
+                if (!empty($_POST['num-order'])) {
+
+                    $qty = $_SESSION['cart']['buy'][$id]['qty'] + $_POST['num-order'];
+                } else {
+
+                    $qty = $_SESSION['cart']['buy'][$id]['qty'] + 1;
+                }
+            } else {
+
+                $qty = $_SESSION['cart']['buy'][$id]['qty'] + 1;
+            }
         } else {
-            $qty = 1;
+
+            if (isset($_POST['btn-add-cart'])) {
+
+                if (!empty($_POST['num-order'])) {
+
+                    $qty = $_POST['num-order'];
+                } else {
+
+                    $qty = 1;
+                }
+            } else {
+
+                $qty = 1;
+            }
         }
         // Tiến hành thêm
 
@@ -66,6 +91,15 @@ function addAction()
 
         $data['cart_buy'] = $_SESSION['cart']['buy'];
         $data['cart_info'] = $_SESSION['cart']['info_cart'];
+    }
+
+    // Phục vụ cho việc hiển thị các trang
+
+    $list_page = get_list_page();
+
+    if (!empty($list_page)) {
+
+        $data['list_page'] = $list_page;
     }
 
     load_view('index', $data);

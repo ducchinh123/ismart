@@ -6,5 +6,6 @@
 </div>
 
 </body>
+<script src="public/js/success.js"></script>
 
 </html>

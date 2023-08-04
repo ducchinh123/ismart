@@ -10,6 +10,7 @@ function db_connect()
 
 
     $conn = mysqli_connect($db['hostname'], $db['username'], $db['password'], $db['dbname']);
+    mysqli_set_charset($conn, "UTF8");
 
     if (!$conn) {
 

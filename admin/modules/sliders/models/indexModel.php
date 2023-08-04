@@ -96,3 +96,17 @@ function removeTrash($id, $data)
 }
 
 // Phân trang
+
+
+// xóa nhiều
+
+function deleteList($ids)
+{
+
+    return db_delete("tbl_sliders", " tbl_sliders.id IN ({$ids})");
+}
+
+function removeList($ids, $data)
+{
+    return db_update("tbl_sliders", $data, "tbl_sliders.id IN ({$ids})");
+}

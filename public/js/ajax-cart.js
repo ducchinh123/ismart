@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    $("#num-order").change(function () {
+    $(".num-order").change(function () {
 
         var dataSTTS = {
 
@@ -17,9 +17,11 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
 
-                $("#sub_total").text(data.sub_total);
+                $("#sub_total-" + dataSTTS.id).text(data.sub_total);
                 $("#total-price span").text(data.total);
                 document.querySelector("#num").innerHTML = data.num_order;
+                document.querySelector(".desc span").innerHTML = data.num_order;
+                document.querySelector(".price-box").innerHTML = data.total;
 
             },
             error: function (xhr, ajaxOptions, thrownError) {

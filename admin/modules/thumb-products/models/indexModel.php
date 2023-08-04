@@ -105,3 +105,17 @@ function totalTrash()
     return db_num_rows("SELECT * FROM `tbl_image_product` INNER JOIN tbl_products
     on tbl_image_product.product_id = tbl_products.id WHERE tbl_products.display <> 'none' AND tbl_products.is_trash = 'no' AND tbl_image_product.is_trash = 'yes'");
 }
+
+
+// xóa nhiều
+
+function deleteList($ids)
+{
+
+    return db_delete("tbl_image_product", " tbl_image_product.id IN ({$ids})");
+}
+
+function removeList($ids, $data)
+{
+    return db_update("tbl_image_product", $data, "tbl_image_product.id IN ({$ids})");
+}

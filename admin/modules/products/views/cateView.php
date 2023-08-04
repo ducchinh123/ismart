@@ -23,6 +23,9 @@ get_header();
                     </div>
                     <div class="table-responsive">
                         <table class="table list-table-wp">
+                            <caption><?php if (isset($total_rows) &&  $total_rows > 0) {
+                                            echo "Đang hiển thị: {$count_} / {$total_rows} tổng số danh mục";
+                                        } ?></caption>
                             <thead>
                                 <tr>
                                     <td><input type="checkbox" name="checkAll" id="checkAll"></td>
@@ -76,24 +79,9 @@ get_header();
             <div class="section" id="paging-wp">
                 <div class="section-detail clearfix">
                     <p id="desc" class="fl-left">Chọn vào checkbox để lựa chọn tất cả</p>
-                    <ul id="list-paging" class="fl-right">
-                        <li>
-                            <a href="" title="">
-                                < </a>
-                        </li>
-                        <li>
-                            <a href="" title="">1</a>
-                        </li>
-                        <li>
-                            <a href="" title="">2</a>
-                        </li>
-                        <li>
-                            <a href="" title="">3</a>
-                        </li>
-                        <li>
-                            <a href="" title="">></a>
-                        </li>
-                    </ul>
+                    <?php if (isset($total_rows) &&  $total_rows > 0) {
+                        echo get_pagging($num_page, $url, $page);
+                    } ?>
                 </div>
             </div>
         </div>

@@ -14,8 +14,7 @@ function indexAction()
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         $list_cate = get_all_cate();
         $list_child = data_tree($list_cate, $_GET['id']);
-        $data['id'] = $_GET['id'];
-        $data['url'] = $_GET['url'];
+
 
         if (!empty($list_child)) {
             $list_id = [];

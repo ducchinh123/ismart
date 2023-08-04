@@ -95,7 +95,7 @@ get_header();
                                     </div>
                                     <div class="action clearfix">
                                         <a href="gio-hang/san-pham-<?php echo $featured['id']; ?>.html" title="" class="add-cart fl-left">Thêm giỏ hàng</a>
-                                        <a href="?page=checkout" title="" class="buy-now fl-right">Mua ngay</a>
+                                        <a href="thanh-toan/san-pham-<?php echo $featured['id'] ?>.html" title="" class="buy-now fl-right">Mua ngay</a>
                                     </div>
                                 </li>
 
@@ -143,7 +143,7 @@ get_header();
                                             </div>
                                             <div class="action clearfix">
                                                 <a href="gio-hang/san-pham-<?php echo $product['id']; ?>.html" title="Thêm giỏ hàng" class="add-cart fl-left">Thêm giỏ hàng</a>
-                                                <a href="?page=checkout" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
+                                                <a href="thanh-toan/san-pham-<?php echo $product['id'] ?>.html" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
                                             </div>
                                         </li>
 
@@ -198,7 +198,7 @@ get_header();
                                             <span class="new"><?php echo currency($bestseller['price_new']); ?></span>
                                             <span class="old"><?php echo currency($bestseller['price_old']); ?></span>
                                         </div>
-                                        <a href="" title="" class="buy-now">Mua ngay</a>
+                                        <a href="thanh-toan/san-pham-<?php echo $bestseller['id'] ?>.html" title="" class="buy-now">Mua ngay</a>
                                     </div>
                                 </li>
 

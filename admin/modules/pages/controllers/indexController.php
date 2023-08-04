@@ -80,10 +80,29 @@ function listAction()
     $data['url'] = "?mod=pages&action=list";
     $data['total_rows'] = $total_rows;
     ///=====================
-    $listPage = get_data("SELECT * FROM `tbl_pages`", $start, $num_per_page, "status = 'Công khai' AND is_trash = 'no'");
+    $listPage = get_data("SELECT * FROM `tbl_pages`", $start, $num_per_page, "status = 'Công khai' AND is_trash = 'no' ORDER BY tbl_pages.id DESC");
     $data['listPage'] = $listPage;
     $data['count_'] = count($listPage);
     //=========
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            return redirect_to("?mod=pages&action=list");
+        }
+    }
     load_view('list', $data);
 }
 
@@ -112,6 +131,24 @@ function publicAction()
     $listPage = get_data("SELECT * FROM `tbl_pages`", $start, $num_per_page, "status = 'Công khai' AND is_trash = 'no'");
     $data['listPage'] = $listPage;
     $data['count_'] = count($listPage);
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            return redirect_to("?mod=pages&action=public");
+        }
+    }
     load_view('public', $data);
 }
 function pendingAction()
@@ -138,6 +175,25 @@ function pendingAction()
     $listPage = get_data("SELECT * FROM `tbl_pages`", $start, $num_per_page, "status = 'Chờ duyệt' AND is_trash = 'no'");
     $data['listPage'] = $listPage;
     $data['count_'] = count($listPage);
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            return redirect_to("?mod=pages&action=pending");
+        }
+    }
     load_view('pending', $data);
 }
 
@@ -287,6 +343,23 @@ function trashcanAction()
     $listPage = get_data("SELECT * FROM `tbl_pages`", $start, $num_per_page, "is_trash = 'yes'");
     $data['listPage'] = $listPage;
     $data['count_'] = count($listPage);
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            deleteList($ids);
+            return redirect_to("?mod=pages&action=trashcan");
+        }
+    }
     load_view('trash_can', $data);
 }
 

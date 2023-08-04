@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 $app_path = __DIR__;
 define("APPPATH", $app_path);
 

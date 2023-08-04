@@ -17,29 +17,28 @@ get_header();
                 <div class="section-detail">
                     <div class="filter-wp clearfix">
                         <ul class="post-status fl-left">
-                            <li class="all"><a href="">Tất cả <span class="count">(69)</span></a> |</li>
-                            <li class="publish"><a href="">Đã đăng <span class="count">(51)</span></a> |</li>
-                            <li class="pending"><a href="">Chờ xét duyệt<span class="count">(0)</span> |</a></li>
-                            <li class="pending"><a href="">Thùng rác<span class="count">(0)</span></a></li>
+                            <li class="all"><a href="?mod=orders&action=index">Tất cả <span class="count">(<?php echo $total_order; ?>)</span></a> |</li>
+                            <li class="pending"><a href="?mod=orders&action=indexTrash">Thùng rác<span class="count">(<?php echo $total_order_trash; ?>)</span></a></li>
                         </ul>
-                        <form method="GET" class="form-s fl-right">
-                            <input type="text" name="s" id="s">
+                        <form method="POST" action="?mod=orders&action=index" class="form-s fl-right">
+                            <input type="text" name="s" id="s" placeholder="Nhập mã đơn...">
                             <input type="submit" name="sm_s" value="Tìm kiếm">
                         </form>
                     </div>
                     <div class="actions">
-                        <form method="GET" action="" class="form-actions">
+                        <form method="POST" action="?mod=orders&action=index" class="form-actions">
                             <select name="actions">
                                 <option value="0">Tác vụ</option>
-                                <option value="1">Công khai</option>
-                                <option value="1">Chờ duyệt</option>
                                 <option value="2">Bỏ vào thủng rác</option>
                             </select>
                             <input type="submit" name="sm_action" value="Áp dụng">
-                        </form>
+
                     </div>
                     <div class="table-responsive">
                         <table class="table list-table-wp">
+                            <caption><?php if (isset($total_rows) && $total_rows > 0) {
+                                            echo "Đang hiển thị: {$count_} / {$total_rows} tổng số đơn";
+                                        } ?></caption>
                             <thead>
                                 <tr>
                                     <td><input type="checkbox" name="checkAll" id="checkAll"></td>
@@ -54,25 +53,35 @@ get_header();
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkbox" name="checkItem" class="checkItem"></td>
-                                    <td><span class="tbody-text">1</h3></span>
-                                    <td><span class="tbody-text">WEB00001</h3></span>
-                                    <td>
-                                        <div class="tb-title fl-left">
-                                            <a href="" title="">Phan Văn Cương</a>
-                                        </div>
-                                        <ul class="list-operation fl-right">
-                                            <li><a href="" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
-                                            <li><a href="" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </td>
-                                    <td><span class="tbody-text">5</span></td>
-                                    <td><span class="tbody-text">1.500.000 VNĐ</span></td>
-                                    <td><span class="tbody-text">Hoạt động</span></td>
-                                    <td><span class="tbody-text">12-07-2016</span></td>
-                                    <td><a href="?page=detail_order" title="" class="tbody-text">Chi tiết</a></td>
-                                </tr>
+                                <?php
+
+                                if (!empty($list_order)) {
+                                    $i = 0;
+                                    foreach ($list_order as $order) {
+                                        $i++;
+                                ?>
+                                        <tr>
+                                            <td><input type="checkbox" name="checkItem[<?php echo $order['id']; ?>]" class="checkItem"></td>
+                                            <td><span class="tbody-text"><?php echo $i; ?></h3></span>
+                                            <td><span class="tbody-text"><?php echo $order['code_order']; ?></h3></span>
+                                            <td>
+                                                <div class="tb-title fl-left">
+                                                    <a href="?mod=orders&action=detail&id=<?php echo $order['id']; ?>" title=""><?php echo $order['fullname']; ?></a>
+                                                </div>
+                                                <ul class="list-operation fl-right">
+                                                    <li><a href="?mod=orders&action=detail&id=<?php echo $order['id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
+                                                    <li><a onclick="return confirm('Di chuyển đơn hàng vào thùng rác?')" href="?mod=orders&action=delete&id=<?php echo $order['id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                                </ul>
+                                            </td>
+                                            <td><span class="tbody-text"><span style="font-weight: bold; padding: 2px 10px; border-radius: 30px ;background: #0951A1;" class="num_order"><?php echo $order['num_order']; ?></span></td>
+                                            <td><span class="tbody-text"><span style="padding: 5px 5px; background: #51B848; border-radius: 10px; color: #FFFFFF;"><?php echo currency($order['total']); ?></span></span></td>
+                                            <td><span class="tbody-text"><?php echo $order['status']; ?></span></td>
+                                            <td><span class="tbody-text"><?php echo $order['create_at']; ?></span></td>
+                                            <td><a href="?mod=orders&action=detail&id=<?php echo $order['id']; ?>" title="" class="tbody-text">Chi tiết</a></td>
+                                        </tr>
+                                <?php }
+                                } ?>
+
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -88,30 +97,17 @@ get_header();
                                 </tr>
                             </tfoot>
                         </table>
+
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="section" id="paging-wp">
                 <div class="section-detail clearfix">
                     <p id="desc" class="fl-left">Chọn vào checkbox để lựa chọn tất cả</p>
-                    <ul id="list-paging" class="fl-right">
-                        <li>
-                            <a href="" title="">
-                                << /a>
-                        </li>
-                        <li>
-                            <a href="" title="">1</a>
-                        </li>
-                        <li>
-                            <a href="" title="">2</a>
-                        </li>
-                        <li>
-                            <a href="" title="">3</a>
-                        </li>
-                        <li>
-                            <a href="" title="">></a>
-                        </li>
-                    </ul>
+                    <?php if (isset($total_rows) &&  $total_rows > 0) {
+                        echo get_pagging($num_page, $url, $page);
+                    } ?>
                 </div>
             </div>
         </div>

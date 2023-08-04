@@ -50,8 +50,10 @@ function send_email($sent_to_email, $sent_to_fullname, $subject, $content, $opti
         // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         $mail->send();
-        echo '✔ Đã gửi mail thành công';
+        return true;
     } catch (Exception $e) {
-        echo "Email chưa được gửi. Chi tiết lỗi: {$mail->ErrorInfo}";
+        echo "<script>
+        alert('Đặt hành không thành công có thể do mất kết nối internet. Quí khách vui lòng kiểm tra lại.');
+    </script>";
     }
 }

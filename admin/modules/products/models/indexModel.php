@@ -21,11 +21,25 @@ function delete_cate($id, $data)
 
     return db_update("tbl_cate_product", $data, "`id`={$id}");
 }
+
+
 function delete_cate_trash($id)
 {
 
     return db_delete("tbl_cate_product", "`id`={$id}");
 }
+
+function delete_cate_by_id_parent($id)
+{
+    return db_delete("tbl_cate_product", "`parent_id`={$id}");
+}
+
+function get_id_child_by_id_parent($id)
+{
+
+    return db_fetch_array("SELECT tbl_cate_product.id FROM `tbl_cate_product` WHERE tbl_cate_product.parent_id = {$id}");
+}
+
 
 function get_info_cate($id)
 {
@@ -92,6 +106,11 @@ function get_info_prod($id)
 {
 
     return db_fetch_row("SELECT * FROM `tbl_products` WHERE `id` = {$id}");
+}
+function get_info_prod_by_id_cate($id)
+{
+
+    return db_fetch_row("SELECT * FROM `tbl_products` WHERE `id_cate_prod` = {$id}");
 }
 
 
@@ -165,4 +184,17 @@ function get_info_image($id)
 
     return db_fetch_row("SELECT tbl_image_product.*, tbl_products.id as id_product FROM tbl_image_product INNER JOIN tbl_products
     on tbl_image_product.product_id = tbl_products.id WHERE tbl_image_product.product_id = {$id} AND tbl_image_product.is_trash = 'no'");
+}
+
+// xóa nhiều
+
+function deleteList($ids)
+{
+
+    return db_delete("tbl_products", " tbl_products.id IN ({$ids})");
+}
+
+function removeList($ids, $data)
+{
+    return db_update("tbl_products", $data, "tbl_products.id IN ({$ids})");
 }

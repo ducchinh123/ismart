@@ -42,6 +42,19 @@ function is_email($label_field)
 }
 
 
+function is_phone($label_field)
+{
+
+    $partten = "/^0([0-9]+){9}$/";
+
+    if (!preg_match($partten, $label_field)) {
+
+        return false;
+    }
+
+    return true;
+}
+
 // is_email 
 
 // form_error

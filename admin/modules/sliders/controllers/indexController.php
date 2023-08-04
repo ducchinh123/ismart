@@ -37,6 +37,26 @@ function indexAction()
     $list_slider = get_data("SELECT * FROM `tbl_sliders`", $start, $num_per_page, "tbl_sliders.is_trash = 'no'");
     $data['count_'] = count($list_slider);
     $data['list_slider'] = $list_slider;
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=sliders&action={$action}");
+        }
+    }
     load_view('index', $data);
 }
 function publicAction()
@@ -70,6 +90,25 @@ function publicAction()
     $data['list_slider'] = $list_slider;
     $data['count_'] = count($list_slider);
     //=========
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=sliders&action={$action}");
+        }
+    }
     load_view('index', $data);
 }
 function privateAction()
@@ -103,6 +142,25 @@ function privateAction()
     $data['list_slider'] = $list_slider;
     $data['count_'] = count($list_slider);
     //=========
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            $ids = implode(",", $ids);
+
+            $info = [];
+            $info['is_trash'] = 'yes';
+            removeList($ids, $info);
+            $action = $_GET['action'];
+            return redirect_to("?mod=sliders&action={$action}");
+        }
+    }
     load_view('index', $data);
 }
 function searchAction()
@@ -399,6 +457,29 @@ function indexTrashAction()
     $data['list_slider'] = $list_slider;
     $data['list_slider'] = $list_slider;
     $data['count'] = count($list_slider);
+
+    // Xóa theo lựa chọn
+
+    if (isset($_POST['sm_action'])) {
+
+        if ($_POST['actions'] == "2" && !empty($_POST['checkItem'])) {
+            $ids = [];
+            foreach ($_POST['checkItem'] as $id => $val) {
+                $ids[] = $id;
+            }
+
+            foreach ($ids as $id) {
+
+                $info_thumb = get_info_slider($id);
+                unlink($info_thumb['image']);
+            }
+
+            $ids = implode(",", $ids);
+            $action = $_GET['action'];
+            deleteList($ids);
+            return redirect_to("?mod=sliders&action={$action}");
+        }
+    }
     load_view('indexTrash', $data);
 }
 

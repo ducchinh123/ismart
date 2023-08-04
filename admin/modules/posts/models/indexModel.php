@@ -174,3 +174,17 @@ function updateCateTrash_no($id, $data)
 
 
 // ẩn bài viết
+
+
+// xóa nhiều
+
+function deleteList($ids)
+{
+
+    return db_delete("tbl_posts", " tbl_posts.id IN ({$ids})");
+}
+
+function removeList($ids, $data)
+{
+    return db_update("tbl_posts", $data, "tbl_posts.id IN ({$ids})");
+}

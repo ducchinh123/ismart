@@ -26,7 +26,7 @@ get_header();
                             <form method="POST" action="<?php if ($_GET['action'] == "list") {
                                                             echo "?mod=products&action=list";
                                                         } else if ($_GET['action'] == "index") {
-                                                            echo "?mod=products&action=index&id=" . $id . "&url=" . $url;
+                                                            echo $url;
                                                         } ?>">
                                 <select name="select">
                                     <option value="0">Sắp xếp</option>
@@ -63,7 +63,7 @@ get_header();
                                     </div>
                                     <div class="action clearfix">
                                         <a href="gio-hang/san-pham-<?php echo $product['id']; ?>.html" title="Thêm giỏ hàng" class="add-cart fl-left">Thêm giỏ hàng</a>
-                                        <a href="?page=checkout" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
+                                        <a href="thanh-toan/san-pham-<?php echo $product['id'] ?>.html" title="Mua ngay" class="buy-now fl-right">Mua ngay</a>
                                     </div>
                                 </li>
 
